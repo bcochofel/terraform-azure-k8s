@@ -34,4 +34,5 @@ kubectl get nodes
 - https://www.terraform.io/docs/backends/types/azurerm.html
 - https://www.hashicorp.com/blog/kubernetes-cluster-with-aks-and-terraform/
 - https://www.terraform.io/docs/providers/azurerm/r/kubernetes_cluster.html
+- https://docs.microsoft.com/en-us/azure/dev-spaces/how-to/install-dev-spaces
 - https://www.terraform.io/docs/providers/azurerm/r/devspace_controller.html
