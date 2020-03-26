@@ -3,13 +3,13 @@ resource "azurerm_resource_group" "k8s" {
   location = var.location
 }
 
-resource "random_id" "log_analytics_workspace_name_suffix" {
+resource "random_id" "salt" {
   byte_length = 8
 }
 
 resource "azurerm_log_analytics_workspace" "test" {
   # The WorkSpace name has to be unique across the whole of azure, not just the current subscription/tenant.
-  name                = "${var.log_analytics_workspace_name}-${random_id.log_analytics_workspace_name_suffix.dec}"
+  name                = "${var.log_analytics_workspace_name}-${random_id.salt.dec}"
   location            = var.log_analytics_workspace_location
   resource_group_name = azurerm_resource_group.k8s.name
   sku                 = var.log_analytics_workspace_sku
@@ -66,7 +66,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 }
 
 resource "azurerm_devspace_controller" "k8s" {
-  name                = var.devspace_name
+  name                = "${var.devspace_name}-${random_id.salt.dec}"
   location            = azurerm_resource_group.k8s.location
   resource_group_name = azurerm_resource_group.k8s.name
 
