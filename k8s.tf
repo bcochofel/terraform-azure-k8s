@@ -64,3 +64,18 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     Environment = "Development"
   }
 }
+
+resource "azurerm_devspace_controller" "k8s" {
+  name                = var.devspace_name
+  location            = azurerm_resource_group.k8s.location
+  resource_group_name = azurerm_resource_group.k8s.name
+
+  sku_name = "S1"
+
+  target_container_host_resource_id        = azurerm_kubernetes_cluster.k8s.id
+  target_container_host_credentials_base64 = base64encode(azurerm_kubernetes_cluster.k8s.kube_config_raw)
+
+  tags = {
+    Environment = "Testing"
+  }
+}

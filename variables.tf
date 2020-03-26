@@ -17,6 +17,10 @@ variable cluster_name {
   default = "k8stest"
 }
 
+variable devspace_name {
+  default = "dsk8stest"
+}
+
 variable resource_group_name {
   default = "azure-k8stest"
 }
