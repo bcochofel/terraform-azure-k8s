@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "k8s" {
 }
 
 resource "random_id" "salt" {
-  byte_length = 8
+  byte_length = 4
 }
 
 resource "azurerm_log_analytics_workspace" "test" {
