@@ -2,12 +2,31 @@
 
 Terraform Azure AKS
 
-# TL;DR
+# Terraform Cloud
+
+Fork this repo to your account and execute Terraform Cloud pipelines.
+
+# tfstate on Azure
 
 - Create Blob Storage on Azure (for tfstate file);
 - Create a Container on that Blob Storage (name=tfstate);
 - Get your storage account name and access key;
-- Execute the following commands on your shell:
+- Edit the file ```main.tf``` and add the backend:
+
+```hcl
+provider "azurerm" {
+  # The "feature" block is required for AzureRM provider 2.x. 
+  # If you are using version 1.x, the "features" block is not allowed.
+  version = "~>2.0"
+  features {}
+}
+
+terraform {
+  backend "azurerm" {}
+}
+```
+
+initialize terraform and the backend with the following command:
 
 ```bash
 terraform init -backend-config="storage_account_name=<YourAzureStorageAccountName>" -backend-config="container_name=tfstate" -backend-config="access_key=<YourStorageAccountAccessKey>" -backend-config="key=codelab.microsoft.tfstate"
@@ -20,7 +39,7 @@ terraform plan -out out.plan
 terraform apply out.plan
 ```
 
-# Test the Kubernetes cluster
+## Test the Kubernetes cluster
 
 ```
 echo "$(terraform output kube_config)" > ./azurek8s
