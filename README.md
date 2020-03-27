@@ -4,9 +4,22 @@ Terraform Azure AKS
 
 # Terraform Cloud
 
-Fork this repo to your account and execute Terraform Cloud pipelines.
+Fork this repo to your account and configure Terraform Cloud.
 
-# tfstate on Azure
+Add the following vars to Terraform Cloud Workspace:
+
+- client_id
+- client_secret
+
+# Configure kubectl
+
+To merge the configuration for the new k8s cluster execute:
+
+```
+az aks get-credentials --resource-group azure-k8stest --name k8stest
+```
+
+# Execute with tfstate on Azure
 
 - Create Blob Storage on Azure (for tfstate file);
 - Create a Container on that Blob Storage (name=tfstate);
