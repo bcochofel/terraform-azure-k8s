@@ -17,6 +17,11 @@ variable cluster_name {
   default = "k8stest"
 }
 
+variable enable_devspace {
+  type    = bool
+  default = false
+}
+
 variable devspace_name {
   default = "dsk8stest"
 }

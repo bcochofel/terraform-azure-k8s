@@ -30,6 +30,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 }
 
 resource "azurerm_devspace_controller" "k8s" {
+  count = var.enable_devspace ? 1 : 0
+
   name                = "${var.devspace_name}-${random_id.salt.dec}"
   location            = azurerm_resource_group.k8s.location
   resource_group_name = azurerm_resource_group.k8s.name
