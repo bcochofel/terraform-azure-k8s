@@ -19,7 +19,7 @@ variable cluster_name {
 
 variable enable_devspace {
   type    = bool
-  default = false
+  default = true
 }
 
 variable devspace_name {
