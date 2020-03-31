@@ -25,3 +25,19 @@ output "kube_config" {
 output "host" {
   value = azurerm_kubernetes_cluster.k8s.kube_config.0.host
 }
+
+output "storage_account_name" {
+  value = azurerm_storage_account.thanos.name
+}
+
+output "storage_account_key" {
+  value = azurerm_storage_account.thanos.primary_access_key
+}
+
+output "storage_endpoint" {
+  value = azurerm_storage_account.thanos.primary_blob_host
+}
+
+output "thanos_storage_config" {
+  value = data.template_file.thanos.rendered
+}
