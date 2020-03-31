@@ -2,6 +2,14 @@ variable "client_id" {}
 variable "client_secret" {}
 variable "ssh_public_key" {}
 
+variable "tags" {
+  type = map(string)
+  default = {
+    environment = "lab"
+    creator     = "terraform"
+  }
+}
+
 variable resource_group_name {
   type    = string
   default = "akslabrg"

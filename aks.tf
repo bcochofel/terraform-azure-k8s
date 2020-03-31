@@ -36,9 +36,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     enabled = true
   }
 
-  tags = {
-    environment = "lab"
-  }
+  tags = var.tags
 }
 
 resource "azurerm_devspace_controller" "aks" {
@@ -53,7 +51,5 @@ resource "azurerm_devspace_controller" "aks" {
   target_container_host_resource_id        = azurerm_kubernetes_cluster.aks.id
   target_container_host_credentials_base64 = base64encode(azurerm_kubernetes_cluster.aks.kube_config_raw)
 
-  tags = {
-    Environment = "lab"
-  }
+  tags = var.tags
 }
