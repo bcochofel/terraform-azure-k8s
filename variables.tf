@@ -41,18 +41,14 @@ variable "kubernetes_version" {
 # aks default node pool
 variable "default_node_pool" {
   type = object({
-    name            = string
-    node_count      = number
-    vm_size         = string
-    os_type         = string
-    os_disk_size_gb = string
+    name       = string
+    node_count = number
+    vm_size    = string
   })
   default = {
-    name            = "default_pool"
-    node_count      = 3
-    vm_size         = "Standard_D1_v2"
-    os_type         = "Linux"
-    os_disk_size_gb = "30"
+    name       = "default_pool"
+    node_count = 3
+    vm_size    = "Standard_D1_v2"
   }
 }
 

@@ -15,11 +15,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   kubernetes_version  = var.kubernetes_version
 
   default_node_pool {
-    name            = substr(var.default_node_pool.name, 0, 12)
-    node_count      = var.default_node_pool.node_count
-    vm_size         = var.default_node_pool.vm_size
-    os_type         = var.default_node_pool.os_type
-    os_disk_size_gb = var.default_node_pool.os_disk_size_gb
+    name       = substr(var.default_node_pool.name, 0, 12)
+    node_count = var.default_node_pool.node_count
+    vm_size    = var.default_node_pool.vm_size
   }
 
   linux_profile {
