@@ -41,12 +41,19 @@ variable "kubernetes_version" {
 # aks default node pool
 variable "default_node_pool" {
   type = object({
+    name            = string
+    count           = number
+    vm_size         = string
+    os_type         = string
+    os_disk_size_gb = string
+  })
+  default = {
     name            = "default_pool"
     count           = 3
     vm_size         = "Standard_D1_v2"
     os_type         = "Linux"
     os_disk_size_gb = "30"
-  })
+  }
 }
 
 # azure dev spaces
