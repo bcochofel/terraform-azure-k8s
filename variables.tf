@@ -46,7 +46,7 @@ variable "default_node_pool" {
     vm_size    = string
   })
   default = {
-    name       = "default_pool"
+    name       = "default"
     node_count = 3
     vm_size    = "Standard_D1_v2"
   }
