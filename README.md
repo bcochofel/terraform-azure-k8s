@@ -52,12 +52,46 @@ terraform plan -out out.plan
 terraform apply out.plan
 ```
 
-## Test the Kubernetes cluster
+# Test the Kubernetes cluster
 
 ```
 echo "$(terraform output kube_config)" > ./azurek8s
 export KUBECONFIG=./azurek8s
 kubectl get nodes
+```
+
+# Install Helm
+
+install helm with rbac
+
+```bash
+# initialize helm
+helm init --history-max 200
+
+# Create the Tiller service account 
+kubectl create serviceaccount tiller --namespace kube-system
+
+# Bind the Tiller service account to the cluster-admin role
+cat <<EOF | kubectl apply -f -
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: tiller-clusterrolebinding
+subjects:
+- kind: ServiceAccount
+  name: tiller
+  namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: ""
+EOF
+
+# Update the existing Tiller deployment
+helm init --service-account tiller --upgrade
+
+# Test the new Helm RBAC rules
+helm ls
 ```
 
 # References

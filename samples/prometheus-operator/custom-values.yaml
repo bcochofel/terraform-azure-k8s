@@ -1,0 +1,126 @@
+---
+## Provide a name to substitute for the full names of resources
+##
+fullnameOverride: "k8s"
+
+## Create default rules for monitoring the cluster
+##
+defaultRules:
+  create: false
+
+# define grafana admin password
+grafana:
+  adminPassword: password
+
+# alertmanager version
+alertmanager:
+  alertmanagerSpec:
+    ## Image of Alertmanager
+    ##
+    image:
+      repository: quay.io/prometheus/alertmanager
+      tag: v0.20.0
+
+    ## Size is the expected size of the alertmanager cluster.
+    ## The controller will eventually make the size of the
+    ## running cluster equal to the expected size.
+    replicas: 3
+
+# prometheus custom values
+prometheus:
+  prometheusSpec:
+    ## If true, pass --storage.tsdb.max-block-duration=2h to prometheus.
+    ## This is already done if using Thanos
+    ##
+    disableCompaction: true
+
+    ## Interval between consecutive scrapes.
+    ##
+    scrapeInterval: ""
+
+    ## Interval between consecutive evaluations.
+    ##
+    evaluationInterval: ""
+
+    ## ListenLocal makes the Prometheus server listen on loopback,
+    ## so that it does not bind against the Pod IP.
+    ##
+    listenLocal: false
+
+    ## Image of Prometheus.
+    ##
+    image:
+      repository: quay.io/prometheus/prometheus
+      tag: v2.17.0
+
+    # External URL at which Prometheus will be reachable.
+    ##
+    externalUrl: ""
+
+    ## Number of Prometheus replicas desired
+    ##
+    replicas: 3
+
+    ## The remote_read spec configuration for Prometheus.
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#remotereadspec
+    remoteRead: []
+    # - url: http://remote1/read
+
+    ## The remote_write spec configuration for Prometheus.
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#remotewritespec
+    remoteWrite: []
+    # - url: http://remote1/push
+
+    ## Enable/Disable Grafana dashboards provisioning for prometheus
+    ## remote write feature
+    remoteWriteDashboards: false
+
+    ## AdditionalScrapeConfigs
+    additionalScrapeConfigs: []
+    # - job_name: kube-etcd
+    #   kubernetes_sd_configs:
+    #     - role: node
+    #   scheme: https
+    #   tls_config:
+    #     ca_file:   /etc/prometheus/secrets/etcd-client-cert/etcd-ca
+    #     cert_file: /etc/prometheus/secrets/etcd-client-cert/etcd-client
+    #     key_file:  /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
+    #   relabel_configs:
+    #   - action: labelmap
+    #     regex: __meta_kubernetes_node_label_(.+)
+    #   - source_labels: [__address__]
+    #     action: replace
+    #     targetLabel: __address__
+    #     regex: ([^:;]+):(\d+)
+    #     replacement: ${1}:2379
+    #   - source_labels: [__meta_kubernetes_node_name]
+    #     action: keep
+    #     regex: .*mst.*
+    #   - source_labels: [__meta_kubernetes_node_name]
+    #     action: replace
+    #     targetLabel: node
+    #     regex: (.*)
+    #     replacement: ${1}
+    #   metric_relabel_configs:
+    #   - regex: (kubernetes_io_hostname|failure_domain_beta_kubernetes_io_region|beta_kubernetes_io_os|beta_kubernetes_io_arch|beta_kubernetes_io_instance_type|failure_domain_beta_kubernetes_io_zone)
+    #     action: labeldrop
+
+    ## Thanos configuration
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#thanosspec
+    ##
+    thanos:
+      baseImage: quay.io/thanos/thanos
+      version: v0.11.0
+      objectStorageConfig:
+        key: thanos.yaml
+        name: thanos-objstore-config
+
+## Component scraping etcd
+##
+kubeEtcd:
+  enabled: false
+
+## Component scraping kube proxy
+##
+kubeProxy:
+  enabled: false
