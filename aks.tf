@@ -18,7 +18,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     name            = substr(var.default_node_pool.name, 0, 12)
     node_count      = var.default_node_pool.node_count
     vm_size         = var.default_node_pool.vm_size
-    os_type         = ar.default_node_pool.os_type
+    os_type         = var.default_node_pool.os_type
     os_disk_size_gb = var.default_node_pool.os_disk_size_gb
   }
 
