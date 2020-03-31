@@ -24,6 +24,10 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     client_secret = var.client_secret
   }
 
+  role_based_access_control {
+    enabled = true
+  }
+
   tags = {
     environment = "lab"
   }
