@@ -38,19 +38,18 @@ variable "kubernetes_version" {
   default = "1.15.10"
 }
 
-# AKS agent pools
-variable "agent_pools" {
-  default = [
-    {
-      name            = "pool1"
-      count           = 3
-      vm_size         = "Standard_D1_v2"
-      os_type         = "Linux"
-      os_disk_size_gb = "30"
-    }
-  ]
+# aks default node pool
+variable "default_node_pool" {
+  type = object({
+    name            = "default_pool"
+    count           = 3
+    vm_size         = "Standard_D1_v2"
+    os_type         = "Linux"
+    os_disk_size_gb = "30"
+  })
 }
 
+# azure dev spaces
 variable enable_devspace {
   type    = bool
   default = false

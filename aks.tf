@@ -14,19 +14,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = var.dns_prefix
   kubernetes_version  = var.kubernetes_version
 
-  dynamic "agent_pool_profile" {
-    for_each = var.agent_pools
-    iterator = pool
-    content {
-      name            = pool.value.name
-      count           = pool.value.count
-      vm_size         = pool.value.vm_size
-      os_type         = pool.value.os_type
-      os_disk_size_gb = pool.value.os_disk_size_gb
-      type            = "VirtualMachineScaleSets"
-      max_pods        = 5
-      vnet_subnet_id  = azurerm_subnet.aks_subnet.id
-    }
+  default_node_pool {
+    name            = substr(var.default_node_pool.name, 0, 12)
+    node_count      = var.default_node_pool.node_count
+    vm_size         = var.default_node_pool.vm_size
+    os_type         = ar.default_node_pool.os_type
+    os_disk_size_gb = var.default_node_pool.os_disk_size_gb
   }
 
   linux_profile {
