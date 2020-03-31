@@ -16,7 +16,8 @@ Add the following vars to Terraform Cloud Workspace:
 To merge the configuration for the new k8s cluster execute:
 
 ```
-az aks get-credentials --resource-group azure-k8stest --name k8stest
+az aks get-credentials --resource-group <resource_group_name> --name
+<cluster_name>
 ```
 
 # Execute with tfstate on Azure
