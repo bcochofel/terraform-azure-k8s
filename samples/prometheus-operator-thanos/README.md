@@ -13,11 +13,11 @@ terraform output thanos_storage_config
 
 with the output of the last command create the ```/tmp/thanos-config.yaml```
 
-## Install Helm chart
+## Install Prometheus Operator Helm chart
 
 ```bash
 kubectl create ns monitoring
-kubectl -n monitoring create secret generic thanos-objstore-config --from-file=thanos.yaml=/tmp/thanos-config.yaml
+kubectl -n monitoring create secret generic thanos-objstore-config --from-file=object-store.yaml=/tmp/thanos-config.yaml
 
 helm install --namespace monitoring --name monit -f custom-values.yaml stable/prometheus-operator
 ```
@@ -29,7 +29,22 @@ kubectl get pods -n monitoring
 kubectl get svc -n monitoring
 ```
 
-## Uninstall Helm chart
+## Install Thanos Helm chart
+
+Add Banzai Cloud repository:
+
+```
+helm repo add banzaicloud-stable https://kubernetes-charts.banzaicloud.com
+helm repo update
+```
+
+install the chart:
+
+```
+helm install --namespace monitoring --name thanos -f thanos-custom-values.yaml banzaicloud-stable/thanos
+```
+
+## Uninstall Prometheus Operator Helm chart
 
 ```bash
 helm delete monit --purge
@@ -49,3 +64,4 @@ kubectl delete ns monitoring
 - https://github.com/helm/charts/tree/master/stable/prometheus-operator
 - https://github.com/coreos/prometheus-operator/blob/master/Documentation/thanos.md
 - https://www.digitalocean.com/community/tutorials/how-to-set-up-digitalocean-kubernetes-cluster-monitoring-with-helm-and-prometheus-operator
+- https://github.com/banzaicloud/banzai-charts/tree/master/thanos

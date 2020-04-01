@@ -1,0 +1,32 @@
+---
+image:
+  repository: quay.io/thanos/thanos
+  tag: v0.11.0
+  pullPolicy: IfNotPresent
+
+store:
+  enabled: true
+
+query:
+  enabled: true
+  # Label to treat as a replica indicator along which data is deduplicated.
+  # Still you will be able to query without deduplication using
+  # 'dedup=false' parameter.
+  replicaLabel: "prometheus_replica"
+
+compact:
+  enabled: true
+
+bucket:
+  enabled: true
+
+rule:
+  enabled: false
+
+sidecar:
+  # NOTE: This is only the service references for the sidecar
+  enabled: true
+
+# Existing secret containing the configuration.
+# The key must be `object-store.yaml`
+objstoreSecretOverride: "thanos-objstore-config"

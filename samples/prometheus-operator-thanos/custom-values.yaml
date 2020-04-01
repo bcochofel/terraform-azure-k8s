@@ -29,10 +29,6 @@ alertmanager:
 # prometheus custom values
 prometheus:
   prometheusSpec:
-    ## If true, pass --storage.tsdb.max-block-duration=2h to prometheus.
-    ## This is already done if using Thanos
-    ##
-    disableCompaction: true
 
     ## Interval between consecutive scrapes.
     ##
@@ -42,20 +38,15 @@ prometheus:
     ##
     evaluationInterval: ""
 
-    ## ListenLocal makes the Prometheus server listen on loopback,
-    ## so that it does not bind against the Pod IP.
+    ## How long to retain metrics
     ##
-    listenLocal: false
+    retention: 6h
 
     ## Image of Prometheus.
     ##
     image:
       repository: quay.io/prometheus/prometheus
       tag: v2.17.0
-
-    # External URL at which Prometheus will be reachable.
-    ##
-    externalUrl: ""
 
     ## Number of Prometheus replicas desired
     ##
@@ -111,8 +102,10 @@ prometheus:
     thanos:
       baseImage: quay.io/thanos/thanos
       version: v0.11.0
+      ## listenLocal should be true if using istio
+      # listenLocal: true
       objectStorageConfig:
-        key: thanos.yaml
+        key: object-store.yaml
         name: thanos-objstore-config
 
 ## Component scraping etcd
