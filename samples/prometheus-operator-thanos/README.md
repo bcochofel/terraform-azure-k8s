@@ -44,6 +44,12 @@ install the chart:
 helm install --namespace monitoring --name thanos -f thanos-custom-values.yaml banzaicloud-stable/thanos
 ```
 
+## Uninstall Thanos Helm chart
+
+```bash
+helm delete thanos --purge
+```
+
 ## Uninstall Prometheus Operator Helm chart
 
 ```bash
